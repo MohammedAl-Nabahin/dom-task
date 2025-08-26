@@ -25,7 +25,8 @@ console.log(firstNode.nodeType); // 3 means textNode
 console.log(firstNode.nodeName); // #text
 
 //Is the first paragraph a sibling of the second, or a descendant?
-const firstP = document.getElementsByTagName("p")[0];
+const section = document.body.children[1].children[0];
+const firstP = section.children[0];
 const isSibling =
   firstP.parentElement === firstP.nextElementSibling.parentElement;
 
@@ -33,11 +34,13 @@ console.log(isSibling); // true
 
 //Twist: Can you find any unexpected text nodes in the DOM structure? Log them and explain their origin.
 function logTextNodes(element) {
-  if (element.nodeType === element.TEXT_NODE) {
+  if (
+    element.nodeType === element.TEXT_NODE &&
+    element.textContent.trim() === ""
+  ) {
     console.log(element);
     console.log("The parent node:", element.parentElement);
     // Text nodes can be the content of the html elements, the white spaces and new lines in the html page.
-    // New line and whitespace characters between tags are parsed by the browser as text nodes.
   }
   element.childNodes.forEach(logTextNodes); // Gets all the nested text nodes
 }
@@ -52,7 +55,7 @@ const h2 = document.createElement("h2");
 const p = document.createElement("p");
 
 div.className = "card";
-div.setAttribute("data-role", "admin");
+div.dataset.role = "admin";
 
 h2.textContent = "Access Panel";
 p.textContent = "Authenticated";
